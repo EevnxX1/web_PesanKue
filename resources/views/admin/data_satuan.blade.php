@@ -1,0 +1,83 @@
+@extends('admin.layout2')
+@section('content')
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Data Pesanan Satuan</h6>
+            </div>
+            @if($message = Session::get('success'))
+                  <div class="alert alert-success" style="width: 98%; margin: auto; color: white">
+                    <p>{{ $message }}</p>
+                  </div>
+            @endif
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-4">
+                
+                <a href="{{ route('satuan.create') }}" class="btn btn-success" data-toggle="modal" data-target="#tambahDataModal">
+                  + Tambah Data
+                </a>
+                
+                <table class="table align-items-center mb-0">
+                  
+                  <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Kode Antrian</th>
+                        <th>Nama Produk</th>
+                        <th>Tanggal Pesanan</th>
+                        <th>Nama Customer</th>
+                        <th>Alamat</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th>Ket</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                <tfoot>
+                    <tr>
+                      <th>No.</th>
+                      <th>Kode Antrian</th>
+                      <th>Nama Produk</th>
+                      <th>Tanggal Pesanan</th>
+                      <th>Nama Customer</th>
+                      <th>Alamat</th>
+                      <th>Qty</th>
+                      <th>Total</th>
+                      <th>Ket</th>
+                      <th>Action</th> 
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach ($satuans as $satuan)
+                    <tr>
+                      <td>{{ ++$i }}</td>
+                      <td>{{ $satuan->kd_antrian }}</td>
+                      <td>{{ $satuan->nm_produk }}</td>
+                      <td>{{ $satuan->tgl_pesanan }}</td>
+                      <td>{{ $satuan->nm_cus }}</td>
+                      <td>{{ $satuan->alamat }}</td>
+                      <td>{{ $satuan->qty }}</td>
+                      <td>{{ $satuan->harga }}</td>
+                      <td>{{ $satuan->ket }}</td>
+                      <td>
+                        <form action="{{ route('satuan.destroy', $satuan->id) }}" method="post">
+                          @csrf
+                          @method('DELETE')
+                          <a href="{{ route('satuan.edit', $satuan->id) }}" class="btn btn-warning">Edit</a>
+                          <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda Ingin Menghapus Data Ini...?')">Hapus</button>
+                        </form>
+                      </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endsection
